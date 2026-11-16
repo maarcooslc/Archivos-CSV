@@ -20,7 +20,7 @@ Este proyecto es una app de consola en Java pensada para practicar la lectura, f
 
 ### 2. Requisitos y librerías
 
-- **Java JDK**: El proyecto está configurado con **OpenJDK 26** (en `.idea/misc.xml`), pero vale cualquier **Java 15 o superior** (porque en `Main.java` se usan *text blocks* `"""`).
+- **Java JDK**: El proyecto está configurado con **OpenJDK 26** (en `.idea/misc.xml`), pero vale cualquier **Java 15 o superior**.
 - **Librerías**: No hace falta instalar nada externo ni usar Maven/Gradle. Todo está hecho con las librerías estándar que ya trae Java:
   - `java.io.*` (`BufferedReader`, `BufferedWriter`, `FileReader`, `FileWriter`, `File`)
   - `java.nio.charset.StandardCharsets` y `java.nio.file.Files`
@@ -35,7 +35,7 @@ Este proyecto es una app de consola en Java pensada para practicar la lectura, f
 Los archivos que lee el programa tienen que estar dentro de la carpeta `data/` en la raíz del proyecto:
 
 - **`data/Restaurantes.csv`**  
-  Es un CSV separado por comas con la cabecera `Restaurant,Address,City,State,Zipcode`. Tiene el listado de restaurantes (nombre, dirección, ciudad, estado y código postal). Si alguna dirección lleva comas dentro, viene escapada con comillas dobles.
+  Es un CSV separado por comas con la cabecera `Restaurant,Address,City,State,Zipcode`. Tiene el listado de restaurantes (nombre, dirección, ciudad, estado y código postal). Si alguna dirección lleva comas dentro, viene entre comillas dobles toda la línea.
 
 - **`data/libreriaConcesionario.xml`**  
   Un XML con la etiqueta raíz `<catagProductos>`. Trae arriba `<lugar>` y `<nombreConce>`, y luego un `<produCatalog>` con varios productos (`<produCatalog>`), cada uno con su `<link>`, `<nombreProd>` y `<precio>`.
