@@ -18,6 +18,7 @@ public class Main {
                     4. Generar CSV desde XML (libreriaConcesionario)
                     5. Salir
                     Introduce una opción:\s""");
+            // Uso nextLine y lo parseo para que no se quede el salto de línea en el buffer
             op = Integer.parseInt(S.nextLine());
 
             switch (op) {

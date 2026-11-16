@@ -22,9 +22,11 @@ public class Controller {
         this.restaurantes = restaurantes;
     }
 
+    // Saca los restaurantes cuyo código postal empieza por el número que se le pase
     public String mostrarRestaurantesPorCodPostal(int i) {
         String respuesta = "";
         for (Restaurante restaurante : restaurantes) {
+            // Dividiendo entre 10000 sacamos el primer dígito del CP
             if ((restaurante.getCodigoPostal() / 10000) == i ) {
                 respuesta += restaurante.toString();
             }

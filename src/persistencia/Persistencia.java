@@ -19,16 +19,19 @@ public class Persistencia {
     static final String FICHERO_XML = "libreriaConcesionario.xml";
     static final String FICHERO_CSV = "libreriaConcesionario.csv";
 
+    // Carga los restaurantes del CSV en un ArrayList
     public static ArrayList<Restaurante> cargaRestaurantes() {
         ArrayList<Restaurante> restaurantes = new ArrayList<>();
         String nombreTemp = "", direccionTemp = "", ciudadTemp = "", estadoTemp = "";
         int codigoPostalTemp = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader("data/Restaurantes.csv"));
+            // Me salto la primera línea porque es la cabecera
             String linea = br.readLine();
             linea = br.readLine();
             while (linea != null) {
 
+                // Si no empieza por comillas se separa normal por comas; si sí, la dirección trae comas dentro
                 if (!linea.startsWith("\"")) {
                     nombreTemp = linea.substring(0, linea.indexOf(","));
                     linea = linea.substring(linea.indexOf(",") + 1);
@@ -66,6 +69,7 @@ public class Persistencia {
         return restaurantes;
     }
 
+    // Añade un restaurante nuevo al final del CSV respetando las comillas si la dirección tiene comas
     public static boolean aniadeInfo(String nombre, String direccion, String ciudad, String estado, int codigoPostal) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter("data/Restaurantes.csv", true));
@@ -80,6 +84,7 @@ public class Persistencia {
         }
     }
 
+    // Guarda en Restaurantes2.csv los que tienen CP empezando por 6
     public static boolean creaCopia(ArrayList<Restaurante> restaurantes) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter("data/Restaurantes2.csv", true));
@@ -99,6 +104,7 @@ public class Persistencia {
         }
     }
 
+    // Lee el XML del concesionario con DOM y lo pasa a CSV
     public static void generarCsvConcesionario() {
         if (existe(PATH + FICHERO_XML)) return;
         try {
@@ -110,6 +116,7 @@ public class Persistencia {
             Element catalogo = (Element) doc.getElementsByTagName("produCatalog").item(0);
             NodeList productos = catalogo.getElementsByTagName("produCatalog");
             try (BufferedWriter bw = Files.newBufferedWriter(new File(PATH + FICHERO_CSV).toPath(), StandardCharsets.UTF_8)) {
+                // Meto el BOM de UTF-8 para que Excel abra bien las tildes
                 bw.write('\uFEFF');
                 escribirFila(bw, "Lugar", lugar);
                 escribirFila(bw, "Nombre Conce", nombreConce);
@@ -138,6 +145,7 @@ public class Persistencia {
         }
     }
 
+    // Devuelve true si NO existe el fichero para salir rápido del metodo
     static boolean existe(String nombre) {
         if (!new File(nombre).exists()) {
             System.out.println("No existe '" + nombre + "'. Genéralo antes con la opción correspondiente.");
@@ -160,6 +168,7 @@ public class Persistencia {
         bw.newLine();
     }
 
+    // Escapa comillas y punto y coma para no romper el CSV
     static String csv(String valor) {
         if (valor.contains(";") || valor.contains("\"") || valor.contains("\n") || valor.contains("\r")) {
             return "\"" + valor.replace("\"", "\"\"") + "\"";
