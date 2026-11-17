@@ -40,6 +40,8 @@ Los archivos que lee el programa tienen que estar dentro de la carpeta `data/` e
 - **`data/libreriaConcesionario.xml`**  
   Un XML con la etiqueta raíz `<catagProductos>`. Trae arriba `<lugar>` y `<nombreConce>`, y luego un `<produCatalog>` con varios productos (`<produCatalog>`), cada uno con su `<link>`, `<nombreProd>` y `<precio>`.
 
+  ![libreriaConcesionario.xml](https://github.com/user-attachments/assets/d915324e-68f5-409a-ab8a-ca1fac2f3643)
+
 ---
 
 ### 4. Pasos para ejecutarla
@@ -74,8 +76,16 @@ Los archivos que lee el programa tienen que estar dentro de la carpeta `data/` e
 
 - **Archivos que crea o modifica en `data/`**:
   - **`data/Restaurantes.csv`** *(Opción 2)*: Le añade al final la nueva línea con el restaurante que hayas metido por teclado.
+
+    ![Restaurantes.csv](https://github.com/user-attachments/assets/f5f8c792-a945-4427-b540-b20b1850d220)
+
   - **`data/Restaurantes2.csv`** *(Opción 3)*: Crea el fichero (o añade líneas si ya existe) con los restaurantes filtrados cuyo código postal empieza por `6`.
+
+    ![Restaurantes2.csv](https://github.com/user-attachments/assets/217d0a35-0106-4e2a-9524-92d6225bb135)
+
   - **`data/libreriaConcesionario.csv`** *(Opción 4)*: Crea o sobrescribe el CSV sacado del XML, guardado en **UTF-8 con BOM** (`\uFEFF`) y separado por punto y coma (`;`) para que se abra bien en Excel, con los datos del concesionario y la tabla de productos (`Link`, `Nombre`, `Precio`).
+
+    ![libreriaConcesionario.csv](https://github.com/user-attachments/assets/8fd76395-ed03-498d-9781-36af5ad429ff)
 
 ---
 
@@ -100,64 +110,3 @@ Archivos-CSV/
 │   └── Main.java
 └── README.md
 ```
-
----
-
-## Pruebas y evidencias
-
-### Tabla de pruebas
-
-Estas pruebas se han hecho compilando con `javac -encoding UTF-8 -d out -sourcepath src src/Main.java` y lanzando el programa con `java -Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -cp out Main`:
-
-| Caso | Tipo | Entrada que se ha usado | Lo que tenía que pasar | Lo que ha salido | Valoración |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **1. Ver restaurantes y pasar XML a CSV** | Funcionamiento normal | Opciones `1`, `4` y `5` con `data/Restaurantes.csv` y `data/libreriaConcesionario.xml` en su sitio. | La opción `1` saca los 9 restaurantes con C.P. que empieza por `6`. La `4` crea `data/libreriaConcesionario.csv` en UTF-8 con BOM y suelta `Archivo CSV generado correctamente.`. La `5` cierra el programa. | Salió la lista de los 9 restaurantes (`61704`, `60606`, `61265`, `62704`, `68508`, `68114`, `65109`, `65804`, `63600`), se creó `data/libreriaConcesionario.csv` con los 3 productos y cerró bien (código `0`). | **Bien** |
-| **2. Meter restaurante con comas y C.P. límite `60000`** | Caso límite | Opción `2` metiendo `Bar Limite`, dirección `Calle Real, 10, Bajo`, ciudad `Martos`, estado `Jaén`, C.P. `60000` (el primer C.P. de 5 cifras que empieza por `6`); luego opción `1` y `5`. | Que lo guarde bien entre comillas en `data/Restaurantes.csv` sin dejar líneas en blanco de más y que salga al momento en la opción `1` (`60000 / 10000 == 6`). | **Al principio fallaba** (no salía en la opción `1` hasta reiniciar y metía un salto de línea doble). **Después de arreglarlo**, lo guarda como `"Bar Limite,""Calle Real, 10, Bajo"",Martos,Jaén,60000"` y ya sale al instante en la opción `1`. | **Bien (tras arreglarlo)** |
-| **3. Meter letras en el menú** | Entrada incorrecta | Escribir `abc` al pedir la opción del menú y luego `5`. | Que no pete el programa, avise de que no vale y vuelva a sacar el menú. | **Al principio petaba** con `NumberFormatException: For input string: "abc"` y se cerraba. **Después de arreglarlo**, saca `Opción incorrecta: introduce un número válido.` y sigue funcionando hasta salir con `5`. | **Bien (tras arreglarlo)** |
-| **4. Falta el XML en la opción 4** | Fichero inexistente | Cambiarle el nombre un momento a `data/libreriaConcesionario.xml` y darle a la opción `4` y luego `5`. | Que detecte que no está el archivo, avise por pantalla sin colgarse y vuelva al menú. | Sacó `No existe 'data/libreriaConcesionario.xml'. Genéralo antes con la opción correspondiente.` y volvió al menú hasta salir con `5`. | **Bien** |
-
----
-
-### Evidencias
-
-#### Archivos de entrada y salida
-- **De entrada**: [`data/Restaurantes.csv`](data/Restaurantes.csv) (21 restaurantes + cabecera) y [`data/libreriaConcesionario.xml`](data/libreriaConcesionario.xml) (3 productos).
-- **Lo que genera (Caso 1)** en [`data/libreriaConcesionario.csv`](data/libreriaConcesionario.csv):
-  ```csv
-  Lugar;Martos(Jaen)
-  Nombre Conce;Catalogo Productos en Martos
-
-  ;Link;Nombre;Precio
-  Producto 1;https://www.amazon.es/PlayStation-4-PS4-Consola-500GB/dp/B013U9CW8A;PlayStation 4 (PS4) - Consola 500GB;340.95
-  Producto 2;https://www.amazon.es/Raspberry-Modelo-GHz-Quad-core-Cortex-A53/dp/B01CD5VC92/;Raspberry Pi 3 Modelo B (1,2 GHz Quad-core ARM Cortex-A53, 1GB RAM, USB 2.0);41.95
-  Producto 3;https://www.amazon.es/Gigabyte-Brix-Bareb%C3%B3n-Serial-SO-DIMM/dp/B00HFCTUPM/;"Gigabyte Brix - Barebón (Intel, Core i5, 2,6 GHz, 6, 35 cm (2.5""), Serial ATA III, SO-DIMM) Negro";421.36
-  ```
-- **Lo que sale por consola en el Caso 4 (si falta el XML)**:
-  ```text
-  Introduce una opción: No existe 'data/libreriaConcesionario.xml'. Genéralo antes con la opción correspondiente.
-  Introduce una opción: Saliendo del programa
-  ```
-
-#### Fallos que salieron al probar y cómo se han arreglado
-
-1. **El programa petaba si metías letras en vez de números (`NumberFormatException`)**:
-   - **Qué pasaba**: Al usar `Integer.parseInt(S.nextLine())` a pelo en [`src/Main.java`](src/Main.java) (tanto en el menú como al pedir el código postal), si metías texto como `abc` saltaba la excepción y te echaba fuera.
-   - **Cómo se arregló**: Se metió un `try-catch (NumberFormatException)` en los dos sitios para avisar por pantalla y volver al menú sin que se cierre.
-   - **Comprobación**: Volviendo a probar el Caso 3 con `abc`, ahora saca `Opción incorrecta: introduce un número válido.` y te deja seguir hasta salir con `5`.
-
-2. **Añadir un restaurante nuevo no se veía hasta reiniciar**:
-   - **Qué pasaba**: `aniadeInfo(...)` en [`src/controller/Controller.java`](src/controller/Controller.java) lo escribía en el CSV, pero no lo metía en la lista `restaurantes` en memoria, así que si le dabas a la opción `1` justo después no salía.
-   - **Cómo se arregló**: Cuando `Persistencia.aniadeInfo(...)` devuelve `true`, se añade también el nuevo `Restaurante` al `ArrayList`.
-   - **Comprobación**: Al repetir el Caso 2, `Bar Limite` (`60000`) ya sale al momento en la opción `1`:
-     ```text
-     ----------------------------------------
-     🍽️ Restaurante : Bar Limite
-     📍 Dirección   : Calle Real, 10, Bajo
-     🏙️ Ciudad      : Martos
-     🗺️ Estado      : Jaén
-     📮 C.P.        : 60000
-     ```
-
-3. **Salto de línea doble al guardar y fallo si quedaban líneas en blanco**:
-   - **Qué pasaba**: `aniadeInfo(...)` en [`src/persistencia/Persistencia.java`](src/persistencia/Persistencia.java) ponía `bw.newLine()` al principio y `"\n"` al final, así que si metías dos restaurantes seguidos dejaba una línea vacía en medio que luego hacía fallar a `cargaRestaurantes()`.
-   - **Cómo se arregló**: Se quitó el `"\n"` del final en `aniadeInfo(...)` y se puso un `if (linea.isBlank())` en `cargaRestaurantes()` para que se salte cualquier línea vacía al leer el CSV.
