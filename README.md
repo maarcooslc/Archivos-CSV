@@ -4,7 +4,7 @@ Práctica de **Acceso a Datos (2º DAM)** en Java para trabajar con ficheros **C
 
 Este ejercicio ha sido elaborado por Fracisco Cantero y Marcos Lara
 
-Aqui el enlace al repositorio de Mario [enlace]( https://github.com/MarioOcanaVilchez/Transformador-XML-XSL)
+Aqui el enlace al repositorio de Mario: [Transformador-XML-XSL]( https://github.com/MarioOcanaVilchez/Transformador-XML-XSL)
 
 ---
 
