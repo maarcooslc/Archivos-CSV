@@ -30,6 +30,10 @@ public class Persistencia {
             String linea = br.readLine();
             linea = br.readLine();
             while (linea != null) {
+                if (linea.isBlank()) {
+                    linea = br.readLine();
+                    continue;
+                }
 
                 // Si no empieza por comillas se separa normal por comas; si sí, la dirección trae comas dentro
                 if (!linea.startsWith("\"")) {
@@ -76,7 +80,7 @@ public class Persistencia {
             bw.newLine();
             bw.write((direccion.contains(",") ? "\"" + nombre : nombre)
                     + "," + (direccion.contains(",") ? "\"\"" + direccion + "\"\"" : direccion)
-                    + "," + ciudad + "," + estado + "," + (direccion.contains(",") ? codigoPostal + "\"" : codigoPostal) + "\n");
+                    + "," + ciudad + "," + estado + "," + (direccion.contains(",") ? codigoPostal + "\"" : codigoPostal));
             bw.close();
             return true;
         } catch (IOException e) {

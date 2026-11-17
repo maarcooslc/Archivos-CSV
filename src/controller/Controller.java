@@ -35,7 +35,11 @@ public class Controller {
     }
 
     public boolean aniadeInfo(String nombre, String direccion, String ciudad, String estado, int codigoPostal) {
-        return Persistencia.aniadeInfo(nombre, direccion, ciudad, estado, codigoPostal);
+        boolean anadido = Persistencia.aniadeInfo(nombre, direccion, ciudad, estado, codigoPostal);
+        if (anadido) {
+            restaurantes.add(new Restaurante(nombre, direccion, ciudad, estado, codigoPostal));
+        }
+        return anadido;
     }
 
     public boolean creaCopia() {

@@ -19,7 +19,13 @@ public class Main {
                     5. Salir
                     Introduce una opción:\s""");
             // Uso nextLine y lo parseo para que no se quede el salto de línea en el buffer
-            op = Integer.parseInt(S.nextLine());
+            try {
+                op = Integer.parseInt(S.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Opción incorrecta: introduce un número válido.");
+                op = -1;
+                continue;
+            }
 
             switch (op) {
                 case 1:
@@ -44,7 +50,14 @@ public class Main {
                     estado = S.nextLine();
 
                     System.out.print("Dime el codigo del restaurante: ");
-                    codigoPostal = Integer.parseInt(S.nextLine());
+                    try {
+                        codigoPostal = Integer.parseInt(S.nextLine().trim());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Código postal no válido: debe ser un número entero.");
+                        Utils.esperar();
+                        Utils.limpiaPantalla();
+                        break;
+                    }
 
                     if (controller.aniadeInfo(nombre, direccion, ciudad, estado, codigoPostal)) System.out.println("Información añadida a csv correctamente");
                     Utils.esperar();
